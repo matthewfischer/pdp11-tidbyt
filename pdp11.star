@@ -5,6 +5,8 @@ Description: Watch the lights blink
 Author: Matt Fischer
 """
 
+# Copyright (C) 2024 Matt Fischer - All Rights Reserved
+
 load("encoding/base64.star", "base64")
 load("render.star", "render")
 load("random.star", "random")
