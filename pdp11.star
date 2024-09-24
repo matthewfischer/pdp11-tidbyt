@@ -5,33 +5,35 @@ Description: Watch the lights blink
 Author: Matt Fischer
 """
 
-load("render.star", "render")
 load("encoding/base64.star", "base64")
+load("render.star", "render")
+load("random.star", "random")
 
-DEC_ICON = base64.decode("""
-iVBORw0KGgoAAAANSUhEUgAAABEAAAAJCAYAAADU6McMAAAAUElEQVQoU2NkwAP+AwEjEOBTA5LDqwCXITBxGM0IYsBsgtmKL
-IbsCpA8uhxIDCyIrhkfH1kPiksGjyGkhAlILdaAxReNxEQzSsBiSw/EGAIAgkGEClJJxQ8AAAAASUVORK5CYII=
+PDP11_ICON = base64.decode("""
+iVBORw0KGgoAAAANSUhEUgAAAB4AAAAJCAYAAAAl45yBAAAAeElEQVQ4T9VTQQ7AIAgb/3/0JktqaiNVDzuMy
+yLUljKMy8TdIlo4jNZ271jSigR5rXPeNZtmIsEAwR3nmEDxWeOJzBoFF3N3YRV0Z4jzNxuoRCvc6/i3ws6tTg
+PY43/MRNWSVWKcH0Y928TV81i5hZgu6SfCO+/+AT5O7ApMY07rAAAAAElFTkSuQmCC
 """)
 
 RED = "#a12627"
 PURPLE = "#4f1932"
 COLOR_BOX_HEIGHT = 2
 
-LED_ON = "#ff1111"
-BOX_ON = "#202020"
-LED_OFF = "#220000"
-BOX_OFF = "#090909"
-
 def topRow():
     return render.Row(
         main_align="start",
         cross_align="start",
         children = [
-            render.Image(src=DEC_ICON),
+            render.Image(src=PDP11_ICON),
         ],
     )
 
 def makeLed(ledOn):
+    LED_ON = "#ff1111"
+    BOX_ON = "#202020"
+    LED_OFF = "#220000"
+    BOX_OFF = "#090909"
+
     if ledOn == True:
         ledColor = LED_ON
         boxColor = BOX_ON
@@ -47,34 +49,31 @@ def makeLed(ledOn):
             color = ledColor)
     )
 
-def ledRow(leftPad, separationDistance = 3):
 
+def randomLedRow(leftPad,count=22):
+    leds = []
+    leds.append(render.Box(width = leftPad, height = 1))
+    for i in range(1,23):
+        state = bool(random.number(0,1))
+        leds.append(makeLed(state))
+    
     return render.Row(
         main_align = "start",
         cross_align = "start",
         expanded = True,
-        children = [
-            render.Box(width = leftPad, height = 1),
-            makeLed(True),
-            makeLed(False),
-            makeLed(True),
-            makeLed(False),
-            makeLed(True),
-            makeLed(True),
-            makeLed(False),
-            makeLed(False),
-            makeLed(True),
-            makeLed(False),
-            makeLed(False),
-            makeLed(True),
-            makeLed(False),
-            makeLed(True),
-            makeLed(True),
-            makeLed(False),
-            makeLed(True),
-            makeLed(True),
-            makeLed(False),
-        ]
+        children = leds
+    )
+
+def ledRow(leftPad, frameDelay = 10):
+    state1 = [randomLedRow(leftPad)] * frameDelay
+    state2 = [randomLedRow(leftPad)] * frameDelay
+    state3 = [randomLedRow(leftPad)] * frameDelay
+    state4 = [randomLedRow(leftPad)] * frameDelay
+    state5 = [randomLedRow(leftPad)] * frameDelay
+    state6 = [randomLedRow(leftPad)] * frameDelay
+
+    return render.Animation(
+        children = state1 + state2 + state3 + state4
     )
 
 def secondRow():
@@ -146,43 +145,18 @@ def emptyBox(boxSize):
 def bottomRow():
     boxSize = 3
 
+    boxes = []
+    for i in range(8):
+        boxes.append(makeBox(boxSize, RED))
+        boxes.append(emptyBox(boxSize))
+        boxes.append(makeBox(boxSize, PURPLE))
+        boxes.append(emptyBox(boxSize))
+
     return render.Row(
         main_align = "start",
         cross_align = "start",
         expanded = True,
-        children = [
-            makeBox(boxSize, RED),
-            emptyBox(boxSize),
-            makeBox(boxSize, PURPLE),
-            emptyBox(boxSize),
-            makeBox(boxSize, RED),
-            emptyBox(boxSize),
-            makeBox(boxSize, PURPLE),
-            emptyBox(boxSize),
-            makeBox(boxSize, RED),
-            emptyBox(boxSize),
-            makeBox(boxSize, PURPLE),
-            emptyBox(boxSize),
-            makeBox(boxSize, RED),
-            emptyBox(boxSize),
-            makeBox(boxSize, PURPLE),
-            emptyBox(boxSize),
-            makeBox(boxSize, RED),
-            emptyBox(boxSize),
-            makeBox(boxSize, PURPLE),
-            emptyBox(boxSize),
-            makeBox(boxSize, RED),
-            emptyBox(boxSize),
-            makeBox(boxSize, PURPLE),
-            emptyBox(boxSize),
-            makeBox(boxSize, RED),
-            emptyBox(boxSize),
-            makeBox(boxSize, PURPLE),
-            emptyBox(boxSize),
-            makeBox(boxSize, RED),
-            emptyBox(boxSize),
-            makeBox(boxSize, PURPLE),
-        ]
+        children = boxes
     )
 
 
@@ -197,7 +171,7 @@ def render_pdp():
                 emptyRow(3),
                 thirdRow(20),
                 ledRow(24),
-                emptyRow(2),
+                emptyRow(4),
                 bottomRow(),
             ],
         ),
