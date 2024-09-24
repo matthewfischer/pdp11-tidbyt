@@ -8,8 +8,8 @@ Author: Matt Fischer
 # Copyright (C) 2024 Matt Fischer - All Rights Reserved
 
 load("encoding/base64.star", "base64")
-load("render.star", "render")
 load("random.star", "random")
+load("render.star", "render")
 
 PDP11_ICON = base64.decode("""
 iVBORw0KGgoAAAANSUhEUgAAAB4AAAAJCAYAAAAl45yBAAAAeElEQVQ4T9VTQQ7AIAgb/3/0JktqaiNVDzuMy
@@ -23,10 +23,10 @@ COLOR_BOX_HEIGHT = 2
 
 def topRow():
     return render.Row(
-        main_align="start",
-        cross_align="start",
+        main_align = "start",
+        cross_align = "start",
         children = [
-            render.Image(src=PDP11_ICON),
+            render.Image(src = PDP11_ICON),
         ],
     )
 
@@ -43,27 +43,29 @@ def makeLed(ledOn):
         ledColor = LED_OFF
         boxColor = BOX_OFF
 
-    return render.Box(width = 3, 
-        height = 4, 
+    return render.Box(
+        width = 3,
+        height = 4,
         color = boxColor,
-        child = render.Box(width = 1,
+        child = render.Box(
+            width = 1,
             height = 1,
-            color = ledColor)
+            color = ledColor,
+        ),
     )
 
-
-def randomLedRow(leftPad,count=22):
+def randomLedRow(leftPad, count = 22):
     leds = []
     leds.append(render.Box(width = leftPad, height = 1))
-    for i in range(1,23):
-        state = bool(random.number(0,1))
+    for _ in range(count):
+        state = bool(random.number(0, 1))
         leds.append(makeLed(state))
-    
+
     return render.Row(
         main_align = "start",
         cross_align = "start",
         expanded = True,
-        children = leds
+        children = leds,
     )
 
 def ledRow(leftPad, frameDelay = 12):
@@ -75,7 +77,7 @@ def ledRow(leftPad, frameDelay = 12):
     state6 = [randomLedRow(leftPad)] * frameDelay
 
     return render.Animation(
-        children = state1 + state2 + state3 + state4 + state5 + state6
+        children = state1 + state2 + state3 + state4 + state5 + state6,
     )
 
 def secondRow():
@@ -97,7 +99,7 @@ def secondRow():
             render.Box(width = wide, height = COLOR_BOX_HEIGHT, color = PURPLE),
             render.Box(width = wide, height = COLOR_BOX_HEIGHT, color = RED),
             render.Box(width = wide, height = COLOR_BOX_HEIGHT, color = PURPLE),
-        ]
+        ],
     )
 
 def thirdRow(leftPad):
@@ -117,9 +119,8 @@ def thirdRow(leftPad):
             render.Box(width = wide, height = COLOR_BOX_HEIGHT, color = RED),
             render.Box(width = wide, height = COLOR_BOX_HEIGHT, color = PURPLE),
             render.Box(width = wide, height = COLOR_BOX_HEIGHT, color = RED),
-        ]
+        ],
     )
-
 
 def emptyRow(rowHeight = 1):
     return render.Row(
@@ -127,8 +128,8 @@ def emptyRow(rowHeight = 1):
         cross_align = "start",
         expanded = True,
         children = [
-            render.Box(width=50, height = rowHeight),
-        ]
+            render.Box(width = 50, height = rowHeight),
+        ],
     )
 
 def makeBox(boxSize, boxColor):
@@ -141,16 +142,16 @@ def makeBox(boxSize, boxColor):
 def emptyBox(boxSize):
     return render.Box(
         width = 1,
-        height = boxSize
+        height = boxSize,
     )
 
 def bottomRow():
     boxSize = 3
 
     boxes = []
-    for i in range(8):
+    for _ in range(8):
         boxes.append(makeBox(boxSize, RED))
-        boxes.append(emptyBox(boxSize)) 
+        boxes.append(emptyBox(boxSize))
         boxes.append(makeBox(boxSize, PURPLE))
         boxes.append(emptyBox(boxSize))
 
@@ -158,9 +159,8 @@ def bottomRow():
         main_align = "start",
         cross_align = "start",
         expanded = True,
-        children = boxes
+        children = boxes,
     )
-
 
 def render_pdp():
     return render.Root(
