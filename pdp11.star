@@ -64,7 +64,7 @@ def randomLedRow(leftPad,count=22):
         children = leds
     )
 
-def ledRow(leftPad, frameDelay = 10):
+def ledRow(leftPad, frameDelay = 12):
     state1 = [randomLedRow(leftPad)] * frameDelay
     state2 = [randomLedRow(leftPad)] * frameDelay
     state3 = [randomLedRow(leftPad)] * frameDelay
@@ -73,7 +73,7 @@ def ledRow(leftPad, frameDelay = 10):
     state6 = [randomLedRow(leftPad)] * frameDelay
 
     return render.Animation(
-        children = state1 + state2 + state3 + state4
+        children = state1 + state2 + state3 + state4 + state5 + state6
     )
 
 def secondRow():
@@ -148,7 +148,7 @@ def bottomRow():
     boxes = []
     for i in range(8):
         boxes.append(makeBox(boxSize, RED))
-        boxes.append(emptyBox(boxSize))
+        boxes.append(emptyBox(boxSize)) 
         boxes.append(makeBox(boxSize, PURPLE))
         boxes.append(emptyBox(boxSize))
 
@@ -170,7 +170,7 @@ def render_pdp():
                 ledRow(1),
                 emptyRow(3),
                 thirdRow(20),
-                ledRow(24),
+                ledRow(20),
                 emptyRow(4),
                 bottomRow(),
             ],
