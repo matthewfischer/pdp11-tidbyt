@@ -1,7 +1,10 @@
 """
 Applet: PDP11
-Summary: PDP11 with Blinking Lights
-Description: Watch the lights blink
+Summary: PDP11 with Blinking LEDs
+Description: A PDP11/70 Visualizer with random blinking LEDs. Inspired by the PiDP11 kit, this 
+shows what the front panel of a PDP11 would look like. The PDP11 was a groundbreaking 16-bit 
+computer from the early 1970s made by Digital Equipment. The bottom row on a real system would be
+physical address and control switches.
 Author: Matt Fischer
 """
 
